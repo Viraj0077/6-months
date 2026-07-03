@@ -1,0 +1,12 @@
+Add your 5 photos here with these exact filenames:
+
+photo-01-garden.jpg     -> Garden photo, "Our First Date"
+photo-02-school.jpg     -> School selfie
+photo-03-holi.jpg       -> Holi photo
+photo-04-matching.jpg   -> Matching outfits photo
+photo-05-promise.jpg    -> Pinky promise photo
+
+Tips:
+- Portrait or square photos (roughly 4:5 ratio) look best in the polaroid frames.
+- Keep each file under ~500KB for fast loading (export at ~1200px on the long edge).
+- Filenames must match exactly (lowercase, hyphens) or edit the src="" paths in index.html.

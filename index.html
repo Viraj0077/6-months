@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>For Luna — Six Months</title>
+<meta name="description" content="A little scrapbook of us." />
+
+<!-- Fonts: Playfair Display (headings), Caveat + Homemade Apple (handwritten), EB Garamond (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Caveat:wght@500;600;700&family=Homemade+Apple&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- Ambient canvas: fireflies / petals / dust / sparkles / clouds / butterflies -->
+<canvas id="atmosphere" aria-hidden="true"></canvas>
+
+<!-- Grain / paper texture overlay -->
+<div class="grain-overlay" aria-hidden="true"></div>
+
+<main id="story">
+
+  <!-- ============================================================ -->
+  <!-- SCENE 0 — INTRO -->
+  <!-- ============================================================ -->
+  <section id="scene-intro" class="scene scene--intro" data-scene="intro">
+    <div class="intro-sky" aria-hidden="true">
+      <div class="moon" id="moon-easter" role="button" tabindex="0" aria-label="the moon"></div>
+      <div class="forest-blur"></div>
+      <div class="clouds"></div>
+    </div>
+
+    <div class="intro-content">
+      <p class="eyebrow eyebrow--intro">a little something for</p>
+      <h1 class="intro-title">Luna</h1>
+      <p class="intro-line">"Only one heart knows the key..."</p>
+
+      <button id="play-music-btn" class="music-gate-btn" type="button">
+        <span class="music-gate-icon">♪</span>
+        <span>Play our song</span>
+      </button>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <span>begin</span>
+      <div class="scroll-hint-line"></div>
+    </div>
+  </section>
+
+  <!-- Glassmorphism music player, appears after music starts -->
+  <div id="music-player" class="music-player" aria-hidden="true">
+    <button id="music-toggle" class="music-player-toggle" type="button" aria-label="Pause music">
+      <span class="icon-pause">❚❚</span>
+      <span class="icon-play">▶</span>
+    </button>
+    <div class="music-player-bars" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <input id="music-volume" class="music-player-volume" type="range" min="0" max="100" value="50" aria-label="Volume" />
+  </div>
+
+  <audio id="bg-audio" loop preload="none">
+    <!-- Place your mp3 at assets/audio/our-song.mp3 -->
+    <source src="assets/audio/our-song.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- ============================================================ -->
+  <!-- SCENE 1 — SECRET KEYPAD -->
+  <!-- ============================================================ -->
+  <section id="scene-keypad" class="scene scene--keypad" data-scene="keypad" hidden>
+    <div class="keypad-card">
+      <p class="eyebrow">a secret only you know</p>
+      <h2 class="keypad-title">Enter the key</h2>
+      <div class="keypad-display" id="keypad-display">
+        <span class="keypad-dot" data-i="0"></span>
+        <span class="keypad-dot" data-i="1"></span>
+        <span class="keypad-dot" data-i="2"></span>
+        <span class="keypad-dot" data-i="3"></span>
+      </div>
+      <p class="keypad-message" id="keypad-message">&nbsp;</p>
+      <div class="keypad-grid" id="keypad-grid">
+        <!-- buttons injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCENE 2 — FLOWER CURTAIN -->
+  <!-- ============================================================ -->
+  <section id="scene-curtain" class="scene scene--curtain" data-scene="curtain" hidden>
+    <div class="curtain-left" aria-hidden="true"></div>
+    <div class="curtain-right" aria-hidden="true"></div>
+    <div class="curtain-glow" aria-hidden="true"></div>
+    <p class="curtain-caption">the vines open, just for you</p>
+    <button class="tap-butterfly" id="tap-butterfly" type="button" aria-label="a curious butterfly">🦋</button>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCENE 3 — BOUQUET -->
+  <!-- ============================================================ -->
+  <section id="scene-bouquet" class="scene scene--bouquet" data-scene="bouquet" hidden>
+    <p class="eyebrow">six months, gathered into one</p>
+    <div class="bouquet-wrap" id="bouquet-wrap" role="button" tabindex="0" aria-label="Open the bouquet to read the letter">
+      <svg id="bouquet-svg" viewBox="0 0 400 500" class="bouquet-svg" aria-hidden="true"></svg>
+    </div>
+    <p class="bouquet-hint">tap the bouquet</p>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCENE 4 — LOVE LETTER -->
+  <!-- ============================================================ -->
+  <section id="scene-letter" class="scene scene--letter" data-scene="letter" hidden>
+    <div class="letter-book" id="letter-book">
+      <div class="letter-page">
+        <p class="letter-salutation">dear Nishtha,</p>
+        <p id="letter-body" class="letter-body"></p>
+        <p class="letter-sign">Your&nbsp;<span id="tap-q2" class="tap-target">Q2</span></p>
+        <p id="letter-ps" class="letter-ps"></p>
+      </div>
+    </div>
+    <button class="continue-btn" id="letter-continue" type="button">turn the page</button>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCENE 5 — SCRAPBOOK -->
+  <!-- ============================================================ -->
+  <section id="scene-scrapbook" class="scene scene--scrapbook" data-scene="scrapbook" hidden>
+    <p class="eyebrow eyebrow--onlight">our scrapbook</p>
+
+    <div class="scrapbook-desk">
+      <div class="scrapbook-pages" id="scrapbook-pages">
+
+        <article class="sb-page" data-page="1">
+          <div class="polaroid" style="--rot:-4deg">
+            <div class="polaroid-photo ph-1"><img src="assets/images/photo-01-garden.jpg" alt="Our first date at the garden" loading="lazy"></div>
+            <p class="polaroid-caption">Our First Date</p>
+          </div>
+          <p class="sb-caption">The day a simple date became the beginning of my favorite love story.</p>
+          <span class="washi-tape wt-1" aria-hidden="true"></span>
+        </article>
+
+        <article class="sb-page" data-page="2">
+          <div class="polaroid" style="--rot:3deg">
+            <div class="polaroid-photo ph-2"><img src="assets/images/photo-02-school.jpg" alt="Tution selfie together" loading="lazy"></div>
+            <p class="polaroid-caption">just us</p>
+          </div>
+          <p class="sb-caption">Some of my favorite memories are just ordinary days with you.</p>
+          <span class="washi-tape wt-2" aria-hidden="true"></span>
+        </article>
+
+        <article class="sb-page" data-page="3">
+          <div class="polaroid" style="--rot:-3deg">
+            <div class="polaroid-photo ph-3"><img src="assets/images/photo-03-holi.jpg" alt="Holi colors together" loading="lazy"></div>
+            <p class="polaroid-caption">Holi</p>
+          </div>
+          <p class="sb-caption">Life became so much brighter after you walked into it.</p>
+          <span class="washi-tape wt-3" aria-hidden="true"></span>
+        </article>
+
+        <article class="sb-page" data-page="4">
+          <div class="polaroid" style="--rot:4deg">
+            <div class="polaroid-photo ph-4"><img src="assets/images/photo-04-matching.jpg" alt="Matching outfits" loading="lazy"></div>
+            <p class="polaroid-caption">twinning</p>
+          </div>
+          <p class="sb-caption">Different paths brought us here... now I only want ours to be one.</p>
+          <span class="washi-tape wt-4" aria-hidden="true"></span>
+        </article>
+
+        <article class="sb-page" data-page="5">
+          <div class="polaroid" style="--rot:-2deg">
+            <div class="polaroid-photo ph-5"><img src="assets/images/photo-05-promise.jpg" alt="Pinky promise" loading="lazy"></div>
+            <p class="polaroid-caption">the promise</p>
+          </div>
+          <p class="sb-caption">One tiny promise... for a lifetime of memories still waiting for us.</p>
+          <span class="washi-tape wt-5" aria-hidden="true"></span>
+          <span class="pressed-flower pf-final" aria-hidden="true"></span>
+        </article>
+
+      </div>
+    </div>
+    <p class="scrapbook-hint">swipe or scroll through our pages</p>
+    <button class="continue-btn continue-btn--dark" id="scrapbook-continue" type="button">continue our story</button>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCENE 6 — MAP -->
+  <!-- ============================================================ -->
+  <section id="scene-map" class="scene scene--map" data-scene="map" hidden>
+    <p class="eyebrow eyebrow--onlight">where our story happened</p>
+    <h2 class="map-title">Two places, one beginning</h2>
+
+    <div class="map-duo">
+
+      <div class="map-single">
+        <div class="map-frame">
+          <iframe
+            class="map-iframe"
+            data-lat="18.9932764"
+            data-lng="73.1260652"
+            title="Map of Mango Garden"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          <span class="map-pin" aria-hidden="true">✿</span>
+        </div>
+        <div class="map-label">
+          <span class="map-card-title">Mango Garden</span>
+          <span class="map-card-sub">Our First Date · 22 Feb 2026</span>
+          <a class="open-maps-btn open-maps-btn--small" href="#" target="_blank" rel="noopener" data-lat="18.9932764" data-lng="73.1260652">Open in Google Maps</a>
+        </div>
+      </div>
+
+      <div class="map-connector" aria-hidden="true">
+        <svg viewBox="0 0 100 24" preserveAspectRatio="none" class="map-connector-svg">
+          <path d="M2,12 C 30,2 70,22 98,12" fill="none" stroke="var(--warm-brown)" stroke-width="1.4" stroke-dasharray="2 3.4" />
+        </svg>
+        <span class="map-connector-heart">♥</span>
+      </div>
+
+      <div class="map-single">
+        <div class="map-frame">
+          <iframe
+            class="map-iframe"
+            data-lat="19.0562746"
+            data-lng="73.0664058"
+            title="Map of Central Park, Kharghar"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          <span class="map-pin" aria-hidden="true">✿</span>
+        </div>
+        <div class="map-label">
+          <span class="map-card-title">Central Park, Kharghar</span>
+          <span class="map-card-sub">Our Best Date · 25 Mar 2026</span>
+          <a class="open-maps-btn open-maps-btn--small" href="#" target="_blank" rel="noopener" data-lat="19.0562746" data-lng="73.0664058">Open in Google Maps</a>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="continue-btn continue-btn--dark" id="map-continue" type="button">one more thing...</button>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCENE 7 — FINAL QUESTION -->
+  <!-- ============================================================ -->
+  <section id="scene-final" class="scene scene--final" data-scene="final" hidden>
+    <div class="final-sunset" aria-hidden="true"></div>
+    <p class="final-line final-line--1">One last question...</p>
+    <p class="final-line final-line--2">One question I hope I'll only ever have to ask once.</p>
+    <h2 class="final-question">Will you be my forever?</h2>
+    <div class="final-buttons">
+      <button id="btn-yes" class="btn-yes" type="button">YES</button>
+      <button id="btn-no" class="btn-no" type="button">no</button>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SCENE 8 — YES ENDING -->
+  <!-- ============================================================ -->
+  <section id="scene-ending" class="scene scene--ending" data-scene="ending" hidden>
+    <svg id="ending-bloom-svg" class="ending-bloom-svg" viewBox="0 0 400 500" aria-hidden="true"></svg>
+    <div class="ending-whiteout" id="ending-whiteout" aria-hidden="true"></div>
+    <div class="ending-content">
+      <p class="ending-line ending-line--1">Every love story is beautiful...</p>
+      <p class="ending-line ending-line--2">but ours is my favorite.</p>
+      <p class="ending-names">Viraj&nbsp;♡&nbsp;Nishtha</p>
+      <p class="ending-date">15 January 2026 → Forever</p>
+      <p class="ending-final">Happy 6&nbsp;Months, Luna ❤️</p>
+    </div>
+    <div class="ending-cat" id="ending-cat" aria-hidden="true">🐾</div>
+  </section>
+
+</main>
+
+<!-- Hidden easter egg: P.S. note, revealed after tapping "Q2" three times -->
+<div id="easter-ps" class="easter-ps" hidden>
+  <p>P.S. — I still get butterflies every time I see you.</p>
+</div>
+
+<!-- ============================ SCRIPTS ============================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+
+<script src="js/particles.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/bouquet-svg.js"></script>
+<script src="js/scenes.js"></script>
+<script src="js/easter-eggs.js"></script>
+
+</body>
+</html>

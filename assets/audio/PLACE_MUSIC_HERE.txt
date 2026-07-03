@@ -1,0 +1,8 @@
+Add your song here with this exact filename:
+
+our-song.mp3
+
+Tips:
+- MP3, ideally under ~6MB so it loads quickly.
+- The player loops it forever at 50% volume by default; adjust with the
+  volume slider on the glass player once music starts.
